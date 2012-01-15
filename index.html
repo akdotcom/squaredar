@@ -15,6 +15,16 @@
       </tr>
     </table>
   </div>
+  <div>
+    <p>Friend distances:</p>
+    <table id="distances" border=1>
+      <tr>
+        <td>Friend ID</td>
+        <td>Avg Distance</td>
+        <td>Last Seen</td>
+      </tr>
+    </table>
+  </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
   <script type="text/javascript">
     $.getJSON('/config',
@@ -41,6 +51,20 @@
                   $('#checkins').append(str);
                 }
               });
+    $.getJSON('/distances',
+              function(distances) {
+                for (var i = 0; i < distances.length; ++i) {
+                  var distance = distances[i];
+                  var str = ([
+                    '<tr>',
+                      '<td>', distance.friend_fs_id, '</td>',
+                      '<td>', distance.avg_distance, '</td>',
+                      '<td>', (new Date(parseInt(distance.last_seen)*1000)).toString(), '</td>',
+                    '</tr>'
+                  ]).join('');
+                  $('#distances').append(str);
+                }
+              });              
   </script>
 </body>
 </html>
