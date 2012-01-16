@@ -6,6 +6,17 @@
 <body>
   <div id="auth"></div>
   <div>
+    <p>Notifications:</p>
+    <table id="notifications" border=1>
+      <tr>
+        <td>Friend ID</td>
+        <td>Avg Distance</td>
+        <td>Last Distance</td>
+        <td>Last Seen</td>
+      </tr>
+    </table>
+  </div>
+  <div>
     <p>Checkins that have been pushed to this server:</p>
     <table id="checkins" border=1>
       <tr>
@@ -20,7 +31,9 @@
     <table id="distances" border=1>
       <tr>
         <td>Friend ID</td>
+        <td># Data Points</td>
         <td>Avg Distance</td>
+        <td>Last Distance</td>
         <td>Last Seen</td>
       </tr>
     </table>
@@ -58,13 +71,30 @@
                   var str = ([
                     '<tr>',
                       '<td>', distance.friend_fs_id, '</td>',
+                      '<td>', distance.num_points, '</td>',                      
                       '<td>', distance.avg_distance, '</td>',
+                      '<td>', distance.last_distance, '</td>',                      
                       '<td>', (new Date(parseInt(distance.last_seen)*1000)).toString(), '</td>',
                     '</tr>'
                   ]).join('');
                   $('#distances').append(str);
                 }
               });              
+    $.getJSON('/notifications',
+              function(notifications) {
+                for (var i = 0; i < notifications.length; ++i) {
+                  var notification = notifications[i];
+                  var str = ([
+                    '<tr>',
+                      '<td>', notification.friend_fs_id, '</td>',
+                      '<td>', notification.avg_distance, '</td>',
+                      '<td>', notification.last_distance, '</td>',                      
+                      '<td>', (new Date(parseInt(notification.last_seen)*1000)).toString(), '</td>',
+                    '</tr>'
+                  ]).join('');
+                  $('#notifications').append(str);
+                }
+              });                            
   </script>
 </body>
 </html>

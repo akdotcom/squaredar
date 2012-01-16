@@ -10,6 +10,12 @@ handlers:
   upload: index.html
   expiration: 0
   login: required
+- url: /processCheckin
+  script: sample.py
+  login: admin
+- url: /calculateNotications
+  script: sample.py
+  login: admin
 - url: /checkin
   script: sample.py
 - url: /.*
